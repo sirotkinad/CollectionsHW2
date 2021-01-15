@@ -1,13 +1,87 @@
 package com.mycompany.task1;
 
-import java.util.LinkedList;
+import java.util.*;
 import java.util.Random;
 
-
-
 public class MainClass {
+
+    public static String genRandomString(){
+        final int STRING_LENGTH = 4;
+        Random random = new Random();
+        String characters = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder sb = new StringBuilder(STRING_LENGTH);
+        for(int i = 0 ; i < STRING_LENGTH; i++){
+            int randomInt = random.nextInt(characters.length());
+            sb.append(characters.charAt(randomInt));
+        }
+        return sb.toString();
+    }
+
+    public static long getAddTime(LinkedList<String> list, int N){
+        long StartTime = System.nanoTime();
+        for(int i = 0; i < N; i++){
+            list.add(genRandomString());
+        }
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+
+    public static long getAddTime(MyLinkedList<String> list, int N){
+        long StartTime = System.nanoTime();
+        for(int i = 0; i < N; i++){
+            list.add(genRandomString());
+        }
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+    public static long getElemByIndexTime(List<String> list, int index){
+        long StartTime = System.nanoTime();
+        list.get(index);
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+    public static long getElemByIndexTime(MyLinkedList<String> list, int index){
+        long StartTime = System.nanoTime();
+        list.get(index);
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+    public static long getRemoveTime(LinkedList<String> list, int index){
+        long StartTime = System.nanoTime();
+        list.remove(index);
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+    public static long getRemoveTime(MyLinkedList<String> list, int index){
+        long StartTime = System.nanoTime();
+        list.remove(index);
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+    public static long getInsertTime(LinkedList<String> list, int index){
+        long StartTime = System.nanoTime();
+        list.add(index, genRandomString());
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
+    public static long getInsertTime(MyLinkedList<String> list, int index){
+        long StartTime = System.nanoTime();
+        list.add(index, genRandomString());
+        long EndTime = System.nanoTime();
+        return EndTime - StartTime;
+    }
+
     public static void main(String[] args){
-       /* MyLinkedList<String> countries = new MyLinkedList<String>();
+
+        //test MyLinkedList
+        MyLinkedList<String> countries = new MyLinkedList<>();
         countries.add("Russia");
         countries.add("Italy");
         countries.add("USA");
@@ -24,53 +98,25 @@ public class MainClass {
         System.out.println(countries.indexOf("Russia"));
         countries.remove(3);
         countries.set(5, "Greece");
-        System.out.println(countries.size());
-        System.out.println(countries.toString());*/
+        for(String s: countries)                //for each
+            System.out.println(s);
+        String[] arr = new String[7];
+        System.out.println(Arrays.toString(countries.toArray(arr)));
 
-        // comparison executing time with LinkedList
+
+        // comparison of executing time, MyLinkedList vs LinkedList
+        MyLinkedList<String> myList = new MyLinkedList<>();
+        LinkedList<String> list = new LinkedList<>();
+        int N = 500;
+        int index = N / 2;
         System.out.println("Comparison executing time(in nanoseconds) with Java realization" + "\n");
-        Random rand = new Random();
-        MyLinkedList<Integer> myList = new MyLinkedList<Integer>();
-        LinkedList<Integer> list = new LinkedList<Integer>();
-        long addStartTime = System.nanoTime();
-        for(int i = 0; i < 100000; i++)
-            myList.add(rand.nextInt());
-        long addEndTime = System.nanoTime();
-        long addStartTime2 = System.nanoTime();
-        for(int i = 0; i < 100000; i++)
-            list.add(rand.nextInt());
-        long addEndTime2 = System.nanoTime();
-        System.out.println("Add in MyLinkedList: " + (addEndTime - addStartTime));
-        System.out.println("Add in LinkedList: " + (addEndTime2 - addStartTime2));
-        System.out.println("\n");
-
-        long traverseStartTime = System.nanoTime();
-        myList.get(5000);
-        long traverseEndTime = System.nanoTime();
-        long  traverseStartTime2 = System.nanoTime();
-        list.get(5000);
-        long traverseEndTime2 = System.nanoTime();
-        System.out.println("Passing through MyLinkedList: " + (traverseEndTime - traverseStartTime));
-        System.out.println("Passing through LinkedList: " + (traverseEndTime2 - traverseStartTime2));
-        System.out.println("\n");
-
-        long removeStartTime = System.nanoTime();
-        myList.remove(5000);
-        long removeFinishTime = System.nanoTime();
-        long removeStartTime2 = System.nanoTime();
-        list.remove(5000);
-        long removeFinishTime2 = System.nanoTime();
-        System.out.println("Removal in MyLinkedList: " + (removeFinishTime - removeStartTime));
-        System.out.println("Removal in LinkedList: " + (removeFinishTime2 - removeStartTime2));
-        System.out.println("\n");
-
-        long insertStartTime = System.nanoTime();
-        myList.add(7400, 100);
-        long insertFinishTime = System.nanoTime();
-        long insertStartTime2 = System.nanoTime();
-        list.add(7400, 100);
-        long insertFinishTime2 = System.nanoTime();
-        System.out.println("Inserting in MyLinkedList: " + (insertFinishTime - insertStartTime));
-        System.out.println("Inserting in LinkedList: " + (insertFinishTime2 - insertStartTime2));
+        System.out.println("Add in MyLinkedList: " + getAddTime(myList, N));
+        System.out.println("Add in LinkedList: " + getAddTime(list, N) + "\n");
+        System.out.println("Access by index in MyLinkedList: " + getElemByIndexTime(myList, index));
+        System.out.println("Access by index in LinkedList: " + getElemByIndexTime(list, index) + "\n");
+        System.out.println("Removal from MyLinkedList: " + getRemoveTime(myList, index));
+        System.out.println("Removal from LinkedList: " + getRemoveTime(list, index) + "\n");
+        System.out.println("Inserting in MyLinkedList: " + getInsertTime(myList, index));
+        System.out.println("Inserting in LinkedList: " + getInsertTime(list, index) + "\n");
     }
 }

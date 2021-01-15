@@ -11,7 +11,7 @@ public interface ILinkedList<E> extends Iterable<E> {
     E remove(int index); //Removes the element at the specified position in this list
     E set(int index, E element); //Replaces the element at the specified position in this list with the specified element
     int size(); //Returns the number of elements in this list.
-    E[] toArray(); //Returns an array containing all of the elements in this list in proper sequence (from first to last element).
+    E[] toArray(E[] arr); //Returns an array containing all of the elements in this list in proper sequence (from first to last element).
     String toString();
 
 }

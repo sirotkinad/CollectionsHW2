@@ -2,6 +2,7 @@ package com.mycompany.task1;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 public class MyLinkedList<E> implements ILinkedList<E> {
@@ -131,13 +132,19 @@ public class MyLinkedList<E> implements ILinkedList<E> {
     }
 
     @Override
-    public E[] toArray () {
-        E[] resArray = (E[]) new Object[size];
+    public E[] toArray (E[] arr) {
+        if (arr.length < size)
+            arr = (E[])java.lang.reflect.Array.newInstance(
+                    arr.getClass().getComponentType(), size);
         int i = 0;
-        for (Node<E> temp = first; temp != null; temp = temp.getNextNode())
-            resArray[i++] = temp.getElement();
-        return resArray;
+        Object[] result = arr;
+        for (Node<E> x = first; x != null; x = x.getNextNode())
+            result[i++] = x.getElement();
+        if (arr.length > size)
+            arr[size] = null;
+        return arr;
     }
+
 
     @Override
     public Iterator<E> iterator () {
@@ -169,8 +176,20 @@ public class MyLinkedList<E> implements ILinkedList<E> {
 
     @Override
     public String toString () {
-        return Arrays.toString(this.toArray());
-    }
+        if(size == 0)
+            return "[]";
+       StringBuffer res = new StringBuffer();
+        res.append('[');
+        for (Node<E> x = first; x != last; x = x.getNextNode()){
+            res.append(x.getElement().toString());
+            res.append(", ");
+            }
+        res.append(last.getElement().toString());
+        res.append(']');
+        return res.toString();
+
+        }
+
 
     boolean isCorrectIndex ( int index){
         return (index >= 0 && index < size);
